@@ -1,4 +1,3 @@
-
 ## Requisitos
 
 - Go 1.16 o superior
@@ -24,22 +23,20 @@
 
 ## Uso
 
-1. Configura las conexiones a las bases de datos en los archivos correspondientes en el directorio .
+1. Configura las conexiones a las bases de datos en los archivos correspondientes en el directorio [repositories](http://_vscodecontentref_/3).
 
 2. Ejecuta el programa:
 
     ```sh
-    go run main.go
+    go run main.go <tipo_repositorio>
     ```
 
-3. Elige el repositorio que deseas utilizar descomentando la línea correspondiente en :
+    Donde `<tipo_repositorio>` puede ser `sqlite`, `placebo`, `pgx`, `mongo` o `mysql`.
 
-    ```go
-    //proceso(&placebo.Placebo{}, tamanoLote, cantidadLotes)
-    //proceso(&pgx.PgxRepo{}, tamanoLote, cantidadLotes)
-    //proceso(&mongo.Mongo{}, tamanoLote, cantidadLotes)
-    //proceso(&mysql.MysqlRepo{}, tamanoLote, cantidadLotes)
-    proceso((&sqlite.SqliteRepo{}), tamanoLote, cantidadLotes)
+3. Elige el repositorio que deseas utilizar pasando el tipo de repositorio como argumento al ejecutar el programa:
+
+    ```sh
+    go run main.go sqlite
     ```
 
 ## Contribuciones

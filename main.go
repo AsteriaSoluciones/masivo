@@ -4,7 +4,12 @@ import (
 	"fmt"
 	"masivo/generator"
 	"masivo/interfaces"
+	"masivo/repositories/mongo"
+	"masivo/repositories/mysql"
+	"masivo/repositories/pgx"
+	"masivo/repositories/placebo"
 	"masivo/repositories/sqlite"
+	"os"
 )
 
 func proceso(rep interfaces.Repositorio, tamanoLote int, cantidadLotes int) {
@@ -44,14 +49,34 @@ func proceso(rep interfaces.Repositorio, tamanoLote int, cantidadLotes int) {
 func main() {
 	fmt.Println("Inserción Masiva")
 
+	if len(os.Args) < 2 {
+		fmt.Println("Debe especificar el tipo de repositorio")
+		return
+	}
+
+	tipoRepo := os.Args[1]
 	tamanoLote := 1000
 	cantidadLotes := 1000
 	total := tamanoLote * cantidadLotes
 	fmt.Println("Total de registros a insertar: ", total)
 
-	//proceso(&placebo.Placebo{}, tamanoLote, cantidadLotes)
-	//proceso(&pgx.PgxRepo{}, tamanoLote, cantidadLotes)
-	//proceso(&mongo.Mongo{}, tamanoLote, cantidadLotes)
-	//proceso(&mysql.MysqlRepo{}, tamanoLote, cantidadLotes)
-	proceso((&sqlite.SqliteRepo{}), tamanoLote, cantidadLotes)
+	var repo interfaces.Repositorio
+
+	switch tipoRepo {
+	case "sqlite":
+		repo = &sqlite.SqliteRepo{}
+	case "placebo":
+		repo = &placebo.Placebo{}
+	case "pgx":
+		repo = &pgx.PgxRepo{}
+	case "mongo":
+		repo = &mongo.Mongo{}
+	case "mysql":
+		repo = &mysql.MysqlRepo{}
+	default:
+		fmt.Println("Tipo de repositorio no soportado")
+		return
+	}
+
+	proceso(repo, tamanoLote, cantidadLotes)
 }
