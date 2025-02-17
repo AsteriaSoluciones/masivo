@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"masivo/generator"
 	"masivo/interfaces"
+	"masivo/repositories/gorm"
 	"masivo/repositories/mongo"
 	"masivo/repositories/mysql"
 	"masivo/repositories/pgx"
@@ -45,12 +46,18 @@ func proceso(rep interfaces.Repositorio, tamanoLote int, cantidadLotes int) {
 
 	fmt.Println("Proceso finalizado")
 }
+func mostrarAyuda() {
+	fmt.Println("Uso de la aplicación:")
+	fmt.Println("  masivo <tipo_repositorio>")
+	fmt.Println("Tipos de repositorio soportados:")
+	fmt.Println("  sqlite, placebo, pgx, gorm, mongo, mysql")
+}
 
 func main() {
 	fmt.Println("Inserción Masiva")
 
 	if len(os.Args) < 2 {
-		fmt.Println("Debe especificar el tipo de repositorio")
+		mostrarAyuda()
 		return
 	}
 
@@ -69,6 +76,8 @@ func main() {
 		repo = &placebo.Placebo{}
 	case "pgx":
 		repo = &pgx.PgxRepo{}
+	case "gorm":
+		repo = &gorm.GormRepo{}
 	case "mongo":
 		repo = &mongo.Mongo{}
 	case "mysql":
