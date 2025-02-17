@@ -12,9 +12,8 @@ import (
 
 type Mongo struct {
 	interfaces.Repositorio
+	client *mongo.Client
 }
-
-var client mongo.Client
 
 func (repo *Mongo) Nombre() string {
 	return "MongoDB"
@@ -29,10 +28,10 @@ func (repo *Mongo) Inicializar() error {
 	if err != nil {
 		return err
 	}
-	client = *newClient
+	repo.client = newClient
 
 	// Check the connection
-	err = client.Ping(context.TODO(), nil)
+	err = repo.client.Ping(context.TODO(), nil)
 	if err != nil {
 		return err
 	}
@@ -41,7 +40,7 @@ func (repo *Mongo) Inicializar() error {
 }
 
 func (repo *Mongo) InsertarLote(registros []model.Registro) error {
-	collection := client.Database("masiva").Collection("registros")
+	collection := repo.client.Database("masiva").Collection("registros")
 
 	_, err := collection.InsertMany(context.TODO(), convertRegistrosToRows(registros))
 	if err != nil {
@@ -51,7 +50,7 @@ func (repo *Mongo) InsertarLote(registros []model.Registro) error {
 }
 
 func (repo *Mongo) Limpiar() error {
-	collection := client.Database("masiva").Collection("registros")
+	collection := repo.client.Database("masiva").Collection("registros")
 
 	err := collection.Drop(context.TODO())
 	if err != nil {
@@ -61,7 +60,7 @@ func (repo *Mongo) Limpiar() error {
 }
 
 func (repo *Mongo) Cerrar() error {
-	err := client.Disconnect(context.Background())
+	err := repo.client.Disconnect(context.Background())
 	return err
 }
 
