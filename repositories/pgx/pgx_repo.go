@@ -2,14 +2,12 @@ package pgx
 
 import (
 	"context"
-	"masivo/interfaces"
 	"masivo/model"
 
 	"github.com/jackc/pgx/v4"
 )
 
 type PgxRepo struct {
-	interfaces.Repositorio
 	conn *pgx.Conn
 }
 

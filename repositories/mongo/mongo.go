@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"masivo/interfaces"
 	"masivo/model"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,7 +10,6 @@ import (
 )
 
 type Mongo struct {
-	interfaces.Repositorio
 	client *mongo.Client
 }
 

@@ -1,7 +1,6 @@
 package gorm
 
 import (
-	"masivo/interfaces"
 	"masivo/model"
 
 	"gorm.io/driver/postgres"
@@ -9,7 +8,6 @@ import (
 )
 
 type GormRepo struct {
-	interfaces.Repositorio
 	db *gorm.DB
 }
 

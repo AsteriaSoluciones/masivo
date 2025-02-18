@@ -3,14 +3,12 @@ package mysql
 import (
 	"database/sql"
 	"log"
-	"masivo/interfaces"
 	"masivo/model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type MysqlRepo struct {
-	interfaces.Repositorio
 	db *sql.DB
 }
 

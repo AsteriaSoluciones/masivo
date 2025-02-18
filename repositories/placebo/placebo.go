@@ -1,13 +1,10 @@
 package placebo
 
 import (
-	"masivo/interfaces"
 	"masivo/model"
 )
 
-type Placebo struct {
-	interfaces.Repositorio
-}
+type Placebo struct{}
 
 func (repo *Placebo) Nombre() string {
 	return "Placebo"

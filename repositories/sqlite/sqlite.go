@@ -3,14 +3,12 @@ package sqlite
 import (
 	"database/sql"
 	"log"
-	"masivo/interfaces"
 	"masivo/model"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type SqliteRepo struct {
-	interfaces.Repositorio
 	db *sql.DB
 }
 
