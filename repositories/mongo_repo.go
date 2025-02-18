@@ -1,4 +1,4 @@
-package mongo
+package repositories
 
 import (
 	"context"
@@ -40,7 +40,7 @@ func (repo *Mongo) Inicializar() error {
 func (repo *Mongo) InsertarLote(registros []model.Registro) error {
 	collection := repo.client.Database("masiva").Collection("registros")
 
-	_, err := collection.InsertMany(context.TODO(), convertRegistrosToRows(registros))
+	_, err := collection.InsertMany(context.TODO(), convertRegistrosToRowsBson(registros))
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (repo *Mongo) Cerrar() error {
 
 // convertRegistrosToRows convierte un slice de registros a un slice de filas
 // para ser insertadas en la base de datos
-func convertRegistrosToRows(registros []model.Registro) []interface{} {
+func convertRegistrosToRowsBson(registros []model.Registro) []interface{} {
 	var rows []interface{}
 	for _, registro := range registros {
 		row := bson.D{

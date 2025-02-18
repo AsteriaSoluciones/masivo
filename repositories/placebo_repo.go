@@ -1,4 +1,4 @@
-package placebo
+package repositories
 
 import (
 	"masivo/model"

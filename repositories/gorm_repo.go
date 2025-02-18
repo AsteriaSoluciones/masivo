@@ -1,4 +1,4 @@
-package gorm
+package repositories
 
 import (
 	"masivo/model"

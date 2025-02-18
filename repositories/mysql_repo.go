@@ -1,31 +1,31 @@
-package sqlite
+package repositories
 
 import (
 	"database/sql"
 	"log"
 	"masivo/model"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type SqliteRepo struct {
+type MysqlRepo struct {
 	db *sql.DB
 }
 
-func (repo *SqliteRepo) Nombre() string {
-	return "SQLite"
+func (repo *MysqlRepo) Nombre() string {
+	return "MySQL"
 }
 
-func (repo *SqliteRepo) Inicializar() error {
+func (repo *MysqlRepo) Inicializar() error {
 	var err error
-	repo.db, err = sql.Open("sqlite3", "./masivo.db")
+	repo.db, err = sql.Open("mysql", "masivo:Ap2485!aO65>AV_o8@tcp(127.0.0.1:3306)/masivo")
 	if err != nil {
 		return err
 	}
 	return repo.db.Ping()
 }
 
-func (repo *SqliteRepo) InsertarLote(registros []model.Registro) error {
+func (repo *MysqlRepo) InsertarLote(registros []model.Registro) error {
 	values := []interface{}{}
 	query := "INSERT INTO registros (nombre, domicilio, comentarios, puntaje, ingreso, fecha) VALUES "
 
@@ -67,12 +67,12 @@ func (repo *SqliteRepo) InsertarLote(registros []model.Registro) error {
 	return tx.Commit()
 }
 
-func (repo *SqliteRepo) Limpiar() error {
-	_, err := repo.db.Exec("DELETE FROM registros")
+func (repo *MysqlRepo) Limpiar() error {
+	_, err := repo.db.Exec("TRUNCATE TABLE registros")
 	return err
 }
 
-func (repo *SqliteRepo) Cerrar() error {
+func (repo *MysqlRepo) Cerrar() error {
 	if err := repo.db.Close(); err != nil {
 		log.Println("Error closing the database connection:", err)
 		return err

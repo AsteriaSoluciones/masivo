@@ -4,12 +4,7 @@ import (
 	"fmt"
 	"masivo/generator"
 	"masivo/interfaces"
-	"masivo/repositories/gorm"
-	"masivo/repositories/mongo"
-	"masivo/repositories/mysql"
-	"masivo/repositories/pgx"
-	"masivo/repositories/placebo"
-	"masivo/repositories/sqlite"
+	"masivo/repositories"
 	"os"
 )
 
@@ -71,17 +66,17 @@ func main() {
 
 	switch tipoRepo {
 	case "sqlite":
-		repo = &sqlite.SqliteRepo{}
+		repo = &repositories.SqliteRepo{}
 	case "placebo":
-		repo = &placebo.Placebo{}
+		repo = &repositories.Placebo{}
 	case "pgx":
-		repo = &pgx.PgxRepo{}
+		repo = &repositories.PgxRepo{}
 	case "gorm":
-		repo = &gorm.GormRepo{}
+		repo = &repositories.GormRepo{}
 	case "mongo":
-		repo = &mongo.Mongo{}
+		repo = &repositories.Mongo{}
 	case "mysql":
-		repo = &mysql.MysqlRepo{}
+		repo = &repositories.MysqlRepo{}
 	default:
 		fmt.Println("Tipo de repositorio no soportado")
 		return
